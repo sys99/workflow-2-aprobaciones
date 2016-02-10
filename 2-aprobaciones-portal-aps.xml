@@ -1,12 +1,10 @@
-
-
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0"?>
 <workflow-definition xmlns="urn:liferay.com:liferay-workflow_6.2.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="urn:liferay.com:liferay-workflow_6.2.0 http://www.liferay.com/dtd/liferay-workflow-definition_6_2_0.xsd">
 	<name>2 aprobaciones Portal APS</name>
 	<description>Todo contenido debe ser aprobado dos veces.</description>
 	<version>1</version>
 	<state>
-		<name>created</name>
+		<name>creado</name>
 		<metadata><![CDATA[{"transitions":{"Primera aprobacion":{"xy":[-46,-12]}},"xy":[62,51]}]]></metadata>
 		<initial>true</initial>
 		<transitions>
@@ -88,7 +86,7 @@
 	</task>
 	<task>
 		<name>primera-aprobacion</name>
-		<metadata><![CDATA[{"transitions":{"Doctores aprobado":{"xy":[-1,-29]},"Doctores rechazado":{"xy":[-34,-1]}},"xy":[260,36]}]]></metadata>
+		<metadata><![CDATA[{"transitions":{"Primera aprobacion":{"xy":[-1,-29]},"Primer rechazo":{"xy":[-34,-1]}},"xy":[260,36]}]]></metadata>
 		<actions>
 			<notification>
 				<name>Notificación de revision para doctores en correo</name>
