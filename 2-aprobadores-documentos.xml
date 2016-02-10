@@ -1,0 +1,225 @@
+<?xml version="1.0"?>
+
+<workflow-definition
+	xmlns="urn:liferay.com:liferay-workflow_6.2.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="urn:liferay.com:liferay-workflow_6.2.0 http://www.liferay.com/dtd/liferay-workflow-definition_6_2_0.xsd"
+>
+	<name>2 aprobaciones Portal APS</name>
+	<description>Todo contenido debe ser aprobado dos veces.</description>
+	<version>1</version>
+	<state>
+		<name>created</name>
+		<metadata>
+			<![CDATA[{"transitions":{"Primera aprobacion":{"xy":[-46,-12]}},"xy":[62,51]}]]>
+		</metadata>
+		<initial>true</initial>
+		<transitions>
+			<transition>
+				<name>Primera aprobacion</name>
+				<target>primera-aprobacion</target>
+				<default>true</default>
+			</transition>
+		</transitions>
+	</state>
+
+
+
+	<task>
+		<name>update</name>
+		<metadata>
+			<![CDATA[{"transitions":{"Resubmit":{"bendpoints":[[427,40]],"xy":[-27,11]}},"xy":[530,36]}]]>
+		</metadata>
+		<actions>
+			<notification>
+				<name>Notificación de rechazo para el creador en correo</name>
+				<description>Notificación de rechazo de publicación</description>
+				<template>
+					<![CDATA[
+						<#assign comments = taskComments!"">
+						<p>Hola, lo sentimos, tu artículo fue rechazado por ${userName}.</p>
+
+						<p>Razón: ${comments}</p>
+
+						<p><strong>Importante:</strong> Recuerda revisar el historial de actividades en tu cuenta para ver todos los comentarios.</p>
+						<p><strong>Administrador Portal APS</strong><br>Instituto Salvadoreño del Seguro Social<br>El Salvador</p>
+					]]>
+				</template>
+				<template-language>freemarker</template-language>
+				<notification-type>email</notification-type>
+				<execution-type>onAssignment</execution-type>
+			</notification>
+			<notification>
+				<name>Notificación de rechazo para el creador en el portal</name>
+				<description>Notificación de rechazo de publicación</description>
+				<template>
+					<![CDATA[
+						<#assign comments = taskComments!"">
+						Lo siento, tu artículo fue rechazado por ${userName}. Por favor revisa los comentarios. El usuario que rechazo tu publicación comenta lo siguiente: ${comments}.
+					]]>
+				</template>
+				<template-language>freemarker</template-language>
+				<notification-type>user-notification</notification-type>
+				<execution-type>onAssignment</execution-type>
+			</notification>
+		</actions>
+		<assignments>
+			<user />
+		</assignments>
+		<transitions>
+			<transition>
+				<name>Resubmit</name>
+				<target>primera-aprobacion</target>
+				<default>true</default>
+			</transition>
+		</transitions>
+	</task>
+
+
+	<task>
+		<name>primera-aprobacion</name>
+		<metadata>
+			<![CDATA[{"transitions":{"Doctores aprobado":{"xy":[-1,-29]},"Doctores rechazado":{"xy":[-34,-1]}},"xy":[260,36]}]]>
+		</metadata>
+		<actions>
+			<notification>
+				<name>Notificación de revision para doctores en correo</name>
+				<description>Un nuevo artículo para revisión en el portal APS</description>
+				<template>
+					<![CDATA[
+						<#assign comments = taskComments!"">
+						<p>Hola, hay un nuevo artículo para su revisión escrito por ${userName}.<br>El último comentario es el siguiente:</p>
+						<p>${comments}</p>
+						<p><strong>Importante:</strong> Recuerda revisar el historial de actividades para ver todos los comentarios.</p>
+						<p><strong>Administrador Portal APS</strong><br>Instituto Salvadoreño del Seguro Social<br>El Salvador</p>
+					]]>
+				</template>
+				<template-language>freemarker</template-language>
+				<notification-type>email</notification-type>
+				<execution-type>onAssignment</execution-type>
+			</notification>
+			<notification>
+				<name>Notificación de revision para doctores en portal</name>
+				<description>Un nuevo artículo para revisión en el portal APS</description>
+				<template>
+					<![CDATA[
+						<#assign comments = taskComments!"">
+						Hola, hay un nuevo artículo para su revisión escrito por ${userName}. El último comentario es el siguiente: ${comments}.
+					]]>
+				</template>
+				<template-language>freemarker</template-language>
+				<notification-type>user-notification</notification-type>
+				<execution-type>onAssignment</execution-type>
+			</notification>
+		</actions>
+		<assignments>
+			<roles>
+				<role>
+					<role-type>site</role-type>
+					<name>Aprobador de contenido web</name>
+				</role>
+			</roles>
+		</assignments>
+		<transitions>
+			<transition>
+				<name>Aprobado</name>
+				<target>aprobacion-final</target>
+				<default>true</default>
+			</transition>
+			<transition>
+				<name>Rechazado</name>
+				<target>update</target>
+				<default>false</default>
+			</transition>
+		</transitions>
+	</task>
+
+
+	<task>
+		<name>aprobacion-final</name>
+		<metadata>
+			<![CDATA[{"xy":[260,270]}]]>
+		</metadata>
+		<actions>
+			<notification>
+				<name>Notificacion de revisión en Correo</name>
+				<description>Un nuevo artículo para revisión en el portal APS</description>
+				<template>
+					<![CDATA[
+						<#assign comments = taskComments!"">
+							<p>Hola, ${userName} ha aprobado un artículo para revisión.<br>El último comentario es el siguiente:</p>
+							<p>${comments}</p>
+							<p><strong>Importante:</strong> Recuerda revisar el historial de actividades para ver todos los comentarios.</p>
+							<p><strong>Administrador Portal APS</strong><br>Instituto Salvadoreño del Seguro Social<br>El Salvador</p>
+					]]>
+				</template>
+				<template-language>freemarker</template-language>
+				<notification-type>email</notification-type>
+				<execution-type>onAssignment</execution-type>
+			</notification>
+			<notification>
+				<name>Notificacion de revisión en portal</name>
+				<description>Un nuevo artículo para revisión en el portal APS</description>
+				<template>
+					<![CDATA[
+						<#assign comments = taskComments!"">
+						Hola, un artículo ha sido revisado por ${userName}. El último comentario es el siguiente: ${comments}.
+					]]>
+				</template>
+				<template-language>freemarker</template-language>
+				<notification-type>user-notification</notification-type>
+				<execution-type>onAssignment</execution-type>
+			</notification>
+		</actions>
+		<assignments>
+			<roles>
+				<role>
+					<role-type>site</role-type>
+					<name>Aprobador final de contenido web</name>
+				</role>
+				<role>
+					<role-type>site</role-type>
+					<name>Site Administrator</name>
+					<auto-create>false</auto-create>
+				</role>
+			</roles>
+		</assignments>
+		<transitions>
+			<transition>
+				<name>Aprobado</name>
+				<target>approved</target>
+				<default>true</default>
+			</transition>
+			<transition>
+				<name>Rechazado</name>
+				<target>update</target>
+				<default>false</default>
+			</transition>
+		</transitions>
+	</task>
+
+
+	<state>
+		<name>approved</name>
+		<metadata>
+			<![CDATA[
+				{"xy":[540,285]}
+			]]>
+		</metadata>
+		<actions>
+			<action>
+				<name>approve</name>
+				<script>
+					<![CDATA[
+						import com.liferay.portal.kernel.workflow.WorkflowStatusManagerUtil;
+						import com.liferay.portal.kernel.workflow.WorkflowConstants;
+						WorkflowStatusManagerUtil.updateStatus(WorkflowConstants.toStatus("approved"), workflowContext);
+					]]>
+				</script>
+				<script-language>groovy</script-language>
+				<execution-type>onEntry</execution-type>
+			</action>
+		</actions>
+	</state>
+
+</workflow-definition>
