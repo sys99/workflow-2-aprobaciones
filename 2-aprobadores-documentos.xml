@@ -5,11 +5,11 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="urn:liferay.com:liferay-workflow_6.2.0 http://www.liferay.com/dtd/liferay-workflow-definition_6_2_0.xsd"
 >
-	<name>2 aprobaciones Portal APS</name>
-	<description>Todo contenido debe ser aprobado dos veces.</description>
+	<name>2 aprobaciones para subir documentos</name>
+	<description>Todo documento debe ser aprobado dos veces.</description>
 	<version>1</version>
 	<state>
-		<name>created</name>
+		<name>creado</name>
 		<metadata>
 			<![CDATA[{"transitions":{"Primera aprobacion":{"xy":[-46,-12]}},"xy":[62,51]}]]>
 		</metadata>
@@ -26,7 +26,7 @@
 
 
 	<task>
-		<name>update</name>
+		<name>actualizar</name>
 		<metadata>
 			<![CDATA[{"transitions":{"Resubmit":{"bendpoints":[[427,40]],"xy":[-27,11]}},"xy":[530,36]}]]>
 		</metadata>
@@ -128,7 +128,7 @@
 			</transition>
 			<transition>
 				<name>Rechazado</name>
-				<target>update</target>
+				<target>actualizar</target>
 				<default>false</default>
 			</transition>
 		</transitions>
@@ -187,12 +187,12 @@
 		<transitions>
 			<transition>
 				<name>Aprobado</name>
-				<target>approved</target>
+				<target>aprobado</target>
 				<default>true</default>
 			</transition>
 			<transition>
 				<name>Rechazado</name>
-				<target>update</target>
+				<target>actualizar</target>
 				<default>false</default>
 			</transition>
 		</transitions>
@@ -200,7 +200,7 @@
 
 
 	<state>
-		<name>approved</name>
+		<name>aprobado</name>
 		<metadata>
 			<![CDATA[
 				{"xy":[540,285]}
