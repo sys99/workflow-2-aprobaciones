@@ -18,7 +18,7 @@
 		</transitions>
 	</state>
 	<state>
-		<name>approved</name>
+		<name>aprobado</name>
 		<metadata><![CDATA[{"xy":[540,285]}]]></metadata>
 		<actions>
 			<action>
@@ -36,8 +36,8 @@
 		</actions>
 	</state>
 	<task>
-		<name>update</name>
-		<metadata><![CDATA[{"transitions":{"Resubmit":{"bendpoints":[[427,40]],"xy":[-27,11]}},"xy":[530,36]}]]></metadata>
+		<name>actualizar</name>
+		<metadata><![CDATA[{"transitions":{"Reenviar":{"bendpoints":[[427,40]],"xy":[-27,11]}},"xy":[530,36]}]]></metadata>
 		<actions>
 			<notification>
 				<name>Notificación de rechazo para el creador en correo</name>
@@ -80,7 +80,7 @@
 		</assignments>
 		<transitions>
 			<transition>
-				<name>Resubmit</name>
+				<name>Reenviar</name>
 				<target>primera-aprobacion</target>
 				<default>true</default>
 			</transition>
@@ -143,7 +143,7 @@
 			</transition>
 			<transition>
 				<name>Rechazado</name>
-				<target>update</target>
+				<target>actualizar</target>
 				<default>false</default>
 			</transition>
 		</transitions>
@@ -178,7 +178,8 @@
 					<![CDATA[
 					<#assign comments = taskComments!"">
 					Hola, un artículo ha sido revisado por ${userName}. El último comentario es el siguiente: ${comments}.
-					]]></template>
+					]]>
+				</template>
 				<template-language>freemarker</template-language>
 				<notification-type>user-notification</notification-type>
 				<recipients>
@@ -203,13 +204,13 @@
 		</assignments>
 		<transitions>
 			<transition>
-				<name>Aprobado</name>
-				<target>approved</target>
+				<name>Aprobar</name>
+				<target>aprobado</target>
 				<default>true</default>
 			</transition>
 			<transition>
-				<name>Rechazado</name>
-				<target>update</target>
+				<name>Rechazar</name>
+				<target>actualizar</target>
 				<default>false</default>
 			</transition>
 		</transitions>
