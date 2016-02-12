@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <workflow-definition xmlns="urn:liferay.com:liferay-workflow_6.2.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="urn:liferay.com:liferay-workflow_6.2.0 http://www.liferay.com/dtd/liferay-workflow-definition_6_2_0.xsd">
-	<name>2 aprobaciones usuarios específicos documentos</name>
+	<name>2 aprobaciones usuarios director y colaborador secretaría</name>
 	<description>Todo documento debe ser aprobado dos veces.</description>
 	<version>1</version>
 	<state>
@@ -126,7 +126,7 @@
 		</actions>
 		<assignments>
 			<user>
-				<user-id>35057</user-id>
+				<user-id>35066</user-id>
 			</user>
 		</assignments>
 		<transitions>
